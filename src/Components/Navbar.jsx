@@ -30,7 +30,7 @@ const Navbar = () => {
           </Link>
           
           {/* Main links for large screens */}
-          <div className="hidden md:flex gap-6">
+          <div className="hidden md:flex gap-6 cursor-pointer">
             <Link to="/" className="hover:text-gray-400">Hire Freelancers</Link>
             <Link to="/work" className="hover:text-gray-400">Find Work</Link>
             <Link to="/solutions" className="hover:text-gray-400">Solutions</Link>
