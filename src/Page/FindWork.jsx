@@ -4,71 +4,91 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 const FindWork = () => {
-    const [data, setData] = useState([]); // Array to store fetched data
-    const [loading, setLoading] = useState(true); // Loading state to show loader while fetching data
-    const [error, setError] = useState(null); // Error state for any request failure
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [bidAmount, setBidAmount] = useState(0);
+    const [showBidModal, setShowBidModal] = useState(false);
+    const [currentProject, setCurrentProject] = useState(null);
     const navigate = useNavigate();
-    // Fetch data from server on component mount
+    const userid = localStorage.getItem('Id'); // Get user ID from local storage
+
     useEffect(() => {
-        axios.get('http://localhost:4000/api/users/getproject') // Replace with your actual API endpoint
+        axios.get('http://localhost:4000/api/users/getproject')
             .then((response) => {
                 console.log(response.data);
-                setData(response.data.projects); // Store fetched data in state
-                setLoading(false); // Set loading to false once data is fetched
+                setData(response.data.projects);
+                setLoading(false);
             })
             .catch((err) => {
-                setError('Error fetching data'); // Set error if request fails
+                setError('Error fetching data');
                 setLoading(false);
             });
     }, []);
 
-const handleSubmit = async (clientid, id, freelancer) => {
-    const userid = localStorage.getItem('Id');
-    // Check if the client is trying to bid on their own project
-    if (clientid === userid) {
-        Swal.fire({
-            title: 'Error!',
-            text: 'You must not bid on your own project',
-            icon: 'error',
-            confirmButtonText: 'OK',
-        });
-        return;
-    }
+    const handleBidClick = (project) => {
+        // Check if user has already placed a bid on this project
+        const hasBid = project.freelancer && project.freelancer.some(freelancer => freelancer.freelancerId === userid);
 
-    try {
-        // Send the bid request to the server
-        const response = await axios.post(`http://localhost:4000/api/users/placebid/${userid}`, {
-            clientid,
-            id,
-        });
+        if (hasBid) {
+            Swal.fire({
+                title: 'Already Bid',
+                text: 'You have already placed a bid on this project.',
+                icon: 'info',
+                confirmButtonText: 'OK',
+            });
+            navigate('/allbidder', { state: { freelancer: response.data.project.freelancer, clientid: client_id } });
+        } else {
+            setCurrentProject(project); // Set the current project for bid
+            setShowBidModal(true); // Show the bid modal
+        }
+    };
 
-        console.log('Bid placed successfully:', response);
-        
-        // Navigate to the 'allbidder' page with the freelancer data in state
-        navigate('/allbidder', { state: { freelancer:response.data.project.freelancer } });
-    } catch (error) {
-        // Handle any error that occurs during the API call
-        console.error('Error placing bid:', error);
-        
-        // Display an error alert
-        Swal.fire({
-            title: 'Error!',
-            text: 'There was an issue placing your bid. Please try again later.',
-            icon: 'error',
-            confirmButtonText: 'OK',
-        });
-    }
-};
+    const handleBidSubmit = async () => {
+        const { client_id, id } = currentProject;
 
-    // Render UI
+        // Check if the client is trying to bid on their own project
+        if (client_id === userid) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'You cannot bid on your own project.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+            setShowBidModal(false);
+            return;
+        }
+
+        try {
+            const response = await axios.post(`http://localhost:4000/api/users/placebid/${userid}`, {
+                clientid: client_id,
+                id,
+                bidAmount,
+            });
+
+            console.log('Bid placed successfully:', response);
+            setShowBidModal(false);
+
+            navigate('/allbidder', { state: { freelancer: response.data.project.freelancer, clientid: client_id } });
+        } catch (error) {
+            console.error('Error placing bid:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'There was an issue placing your bid. Please try again later.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+            setShowBidModal(false);
+        }
+    };
+
     return (
         <div className="bg-black min-h-screen container mx-auto p-8">
             <h1 className="text-4xl font-semibold text-center text-orange-500 mb-12">Find Work</h1>
 
-            {loading && <p className="text-center text-xl text-orange-500">Loading...</p>} {/* Show loading text until data is fetched */}
-            {error && <p className="text-center text-xl text-orange-500">{error}</p>} {/* Display error message if any */}
+            {loading && <p className="text-center text-xl text-orange-500">Loading...</p>}
+            {error && <p className="text-center text-xl text-orange-500">{error}</p>}
 
-            {/* Check if data is available */}
             {data.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {data.map((item, index) => (
@@ -78,7 +98,6 @@ const handleSubmit = async (clientid, id, freelancer) => {
                                 <p className="text-lg text-gray-200">{item.description || 'Dummy description for work'}</p>
                             </div>
 
-                            {/* Skills Bubble */}
                             <div className="flex flex-wrap gap-2 mb-6">
                                 {item.skills && item.skills.length > 0 ? (
                                     item.skills.map((skill, skillIndex) => (
@@ -94,33 +113,46 @@ const handleSubmit = async (clientid, id, freelancer) => {
                                 )}
                             </div>
 
-                            {/* File download button */}
                             <div className="flex justify-between items-center">
                                 {item.filePath && (
-                                    <div>
-                                        {/* Download Button */}
-                                        <a
-                                            href={item.filePath}
-                                            download={item.fileName || 'file'} // Provide a default name for the file if it's not specified in the API
-                                            className="inline-block mt-4 bg-orange-500 text-white py-2 px-6 rounded-lg font-semibold hover:bg-orange-400"
-                                        >
-                                            Attach File
-                                        </a>
-                                    </div>
+                                    <a
+                                        href={item.filePath}
+                                        download={item.fileName || 'file'}
+                                        className="inline-block mt-4 bg-orange-500 text-white py-2 px-6 rounded-lg font-semibold hover:bg-orange-400"
+                                    >
+                                        Attach File
+                                    </a>
                                 )}
-
-                                {/* Place Bid Button */}
-                                <button onClick={() => handleSubmit(item.client_id, item.id,item.freelancer)} className="text-white border-2 border-white py-2 px-6 rounded-lg font-semibold hover:bg-white hover:text-black transition-all duration-300">
+                                <button onClick={() => handleBidClick(item)} className="text-white border-2 border-white py-2 px-6 rounded-lg font-semibold hover:bg-white hover:text-black transition-all duration-300">
                                     Place Bid
                                 </button>
                             </div>
-
-
                         </div>
                     ))}
                 </div>
             ) : (
                 <p className="text-center text-xl text-gray-300">No work available</p>
+            )}
+
+            {showBidModal && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+                        <h2 className="text-2xl mb-4">Enter Your Bid Amount</h2>
+                        <input
+                            type="number"
+                            value={bidAmount}
+                            onChange={(e) => setBidAmount(Number(e.target.value))}
+                            className="w-full p-2 border border-gray-300 rounded mb-4"
+                            placeholder="Bid Amount"
+                        />
+                        <button onClick={handleBidSubmit} className="bg-orange-500 text-white py-2 px-6 rounded font-semibold hover:bg-orange-400 mr-2">
+                            Submit Bid
+                        </button>
+                        <button onClick={() => setShowBidModal(false)} className="py-2 px-6 border border-gray-300 rounded font-semibold hover:bg-gray-100">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
             )}
         </div>
     );
