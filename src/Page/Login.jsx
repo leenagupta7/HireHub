@@ -79,7 +79,7 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-black text-white">
-      <div className="w-full max-w-md p-8 bg-black border-2 border-white rounded-4 shadow-lg rounded-lg space-y-12">
+      <div className="w-full max-w-lg p-8 bg-gray-900 border-2 border-white rounded-4 shadow-lg rounded-lg space-y-12">
         <h2 className="text-2xl font-semibold text-center">Log In to Your Account</h2>
         <form className="flex flex-col space-y-6" onSubmit={handleSubmit}>
           <div className="flex flex-col">

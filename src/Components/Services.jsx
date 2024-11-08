@@ -2,7 +2,7 @@ import React from 'react';
 
 const Services = ({ icon, heading, para }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center justify-center text-center transition-transform transform hover:scale-105">
+    <div className="bg-white-50 rounded-lg shadow-lg p-6 flex flex-col items-center justify-center text-center transition-transform transform hover:scale-105">
       <div className="text-orange-500 mb-4">
         {icon}
       </div>

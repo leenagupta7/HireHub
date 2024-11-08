@@ -11,7 +11,7 @@ const Home = () => {
       {/* Header */}
       <Navbar/>
       <Header />
-      <div className="p-8">
+      <div className="p-8 -mt-28">
         <Provide />
       </div>
       <Footer />

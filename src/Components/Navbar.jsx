@@ -25,12 +25,12 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* Logo and main links */}
         <div className="flex items-center gap-8">
-          <Link to="/" className="text-2xl font-bold ml-6">
+          <Link to="/" className="text-2xl font-bold ml-6 mr-20">
             HireHub
           </Link>
           
           {/* Main links for large screens */}
-          <div className="hidden md:flex gap-6 cursor-pointer">
+          <div className="hidden md:flex gap-12 cursor-pointer font-montserrat">
             <Link to="/" className="hover:text-gray-400">Hire Freelancers</Link>
             <Link to="/work" className="hover:text-gray-400">Find Work</Link>
             <Link to="/solutions" className="hover:text-gray-400">Solutions</Link>
@@ -38,7 +38,7 @@ const Navbar = () => {
         </div>
 
         {/* Login, Sign Up, and Post Project buttons */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-8 font-montserrat">
           <Link to="/login" className="hover:text-gray-400 hidden md:block">Log In</Link>
           <Link to="/signup" className="hover:text-gray-400 hidden md:block">Sign Up</Link>
           <button

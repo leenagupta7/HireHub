@@ -77,15 +77,15 @@ const DetailAboutProject = () => {
     
 
     return (
-        <div className="min-h-screen flex items-center justify-center py-10">
-            <div className="bg-white p-10 rounded-xl shadow-xl w-full max-w-6xl flex flex-col md:flex-row">
+        <div className="min-h-screen flex items-center justify-center py-10 bg-black">
+            <div className="bg-gray-900 p-10 rounded-xl shadow-xl w-full max-w-6xl flex flex-col md:flex-row">
                 {/* Left Section (Text content) */}
                 <div className="w-full md:w-1/2 flex flex-col items-start justify-center space-y-6 md:pr-10">
                     <main className="space-y-4">
-                        <h1 className="text-4xl font-bold text-gray-800">
+                        <h1 className="text-4xl font-bold text-gray-300">
                             Tell us what you need <span className="text-orange-500">done</span>.
                         </h1>
-                        <p className="text-xl text-gray-600">
+                        <p className="text-xl text-gray-400">
                             We'll guide you to create the perfect brief. The more detail, the better.
                         </p>
 
@@ -109,7 +109,7 @@ const DetailAboutProject = () => {
                                 <IconButton component="span" color="primary">
                                     <AttachFileIcon fontSize="small" />
                                 </IconButton>
-                                <span className="text-gray-600 text-sm ml-2">Attach your file here</span>
+                                <span className="text-gray-400 text-sm ml-2">Attach your file here</span>
                             </label>
                         </div>)}
 
@@ -129,13 +129,13 @@ const DetailAboutProject = () => {
                     {/* Show the bullet points if Next is clicked */}
                     {!isNextClicked && (
                         <div className="space-y-4">
-                            <h3 className="text-2xl font-semibold text-gray-800 mt-6">
+                            <h3 className="text-2xl font-semibold text-gray-300 mt-6">
                                 Enter a few bullet points or a full description.
                             </h3>
-                            <p className="text-lg text-gray-700">
+                            <p className="text-lg text-gray-400">
                                 Freelancer connects over 77 million professionals globally.
                             </p>
-                            <ul className="text-left list-disc pl-6 text-lg text-gray-700 space-y-2">
+                            <ul className="text-left list-disc pl-6 text-lg text-gray-500 space-y-2">
                                 <li>From ₹100 tasks to ₹100 million projects, we've got you covered.</li>
                                 <li>Connect with skilled freelancers in seconds.</li>
                                 <li>Only pay freelancers once you are happy with their work.</li>
@@ -146,19 +146,19 @@ const DetailAboutProject = () => {
                     {/* Skill Section (Only visible after clicking "Next") */}
                     {isNextClicked && (
                         <div className="mt-6 space-y-4">
-                            <h3 className="text-xl font-semibold text-gray-800">What skills are required?</h3>
+                            <h3 className="text-xl font-semibold text-gray-300">What skills are required?</h3>
                             <div className="flex flex-wrap gap-3">
                                 {skills.map((skill, index) => (
                                     <div
                                         key={index}
-                                        className="bg-gray-100 text-gray-800 px-4 py-2 rounded-full flex items-center space-x-2"
+                                        className="bg-gray-100 text-gray-700 px-4 py-2 rounded-full flex items-center space-x-2"
                                     >
                                         <span>{skill}</span>
                                         <button
                                             onClick={() => setSkills(skills.filter((s) => s !== skill))}
-                                            className="text-red-500 font-bold"
+                                            className="text-black font-bold"
                                         >
-                                            X
+                                            x
                                         </button>
                                     </div>
                                 ))}

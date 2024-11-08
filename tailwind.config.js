@@ -8,6 +8,9 @@ module.exports = {
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
       },
+      backgroundColor: {
+        'white-50': 'rgba(255, 255, 255, 0.8)',
+      },
     },
   },
   plugins: [],
