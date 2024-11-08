@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const FindWork = () => {
     const [data, setData] = useState([]); // Array to store fetched data
     const [loading, setLoading] = useState(true); // Loading state to show loader while fetching data
     const [error, setError] = useState(null); // Error state for any request failure
-
+    const navigate = useNavigate();
     // Fetch data from server on component mount
     useEffect(() => {
         axios.get('http://localhost:4000/api/users/getproject') // Replace with your actual API endpoint
@@ -19,15 +21,48 @@ const FindWork = () => {
                 setLoading(false);
             });
     }, []);
-    const handleSubmit=(clientid,id)=>{
-        const userid = localStorage.getItem('Id');
-        const response = axios.post(`http://localhost:4000/api/users/placebid/${userid}`,{
-            clientid,id
-        })
+
+const handleSubmit = async (clientid, id, freelancer) => {
+    const userid = localStorage.getItem('Id');
+    // Check if the client is trying to bid on their own project
+    if (clientid === userid) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'You must not bid on your own project',
+            icon: 'error',
+            confirmButtonText: 'OK',
+        });
+        return;
     }
+
+    try {
+        // Send the bid request to the server
+        const response = await axios.post(`http://localhost:4000/api/users/placebid/${userid}`, {
+            clientid,
+            id,
+        });
+
+        console.log('Bid placed successfully:', response);
+        
+        // Navigate to the 'allbidder' page with the freelancer data in state
+        navigate('/allbidder', { state: { freelancer:response.data.project.freelancer } });
+    } catch (error) {
+        // Handle any error that occurs during the API call
+        console.error('Error placing bid:', error);
+        
+        // Display an error alert
+        Swal.fire({
+            title: 'Error!',
+            text: 'There was an issue placing your bid. Please try again later.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+        });
+    }
+};
+
     // Render UI
     return (
-        <div className="container mx-auto p-8">
+        <div className="bg-black min-h-screen container mx-auto p-8">
             <h1 className="text-4xl font-semibold text-center text-orange-500 mb-12">Find Work</h1>
 
             {loading && <p className="text-center text-xl text-orange-500">Loading...</p>} {/* Show loading text until data is fetched */}
@@ -75,7 +110,7 @@ const FindWork = () => {
                                 )}
 
                                 {/* Place Bid Button */}
-                                <button onClick={handleSubmit(item.client_id,item.id)} className="text-white border-2 border-white py-2 px-6 rounded-lg font-semibold hover:bg-white hover:text-black transition-all duration-300">
+                                <button onClick={() => handleSubmit(item.client_id, item.id,item.freelancer)} className="text-white border-2 border-white py-2 px-6 rounded-lg font-semibold hover:bg-white hover:text-black transition-all duration-300">
                                     Place Bid
                                 </button>
                             </div>

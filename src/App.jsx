@@ -5,6 +5,7 @@ import Login from './Page/Login';
 import Signup from './Page/Signup';
 import DetailAboutProject from './Page/DetailAboutProject';
 import FindWork from './Page/FindWork';
+import Allbidders from './Page/Allbidders';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path = '/signup' element = {<Signup/>}/>
         <Route path = '/detailproject' element = {<DetailAboutProject/>}/>
         <Route path = '/findWork' element = {<FindWork/>}/>
+        <Route path = '/allbidder' element = {<Allbidders/>}/>
       </Routes>
 
     </Router>

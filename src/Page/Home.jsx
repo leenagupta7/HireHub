@@ -7,8 +7,10 @@ const Home = () => {
   return (
     <div className="bg-black text-white">
       <Header/>
-      <Provide/>
-      <Footer/>
+     <div className="p-8">
+     <Provide/>
+     <Footer/>
+     </div>
     </div>
   )
 }

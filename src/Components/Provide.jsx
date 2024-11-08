@@ -12,7 +12,7 @@ const Provide = () => {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 ">
       <Services 
         icon={<GroupIcon style={{ color: "rgb(255, 120, 0)", fontSize: '56px' }} />} 
-        heading={"Certified Doctors"} 
+        heading={"Freelancer Profiles"} 
         para={"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae atque expedita."}
       />
       <Services 
@@ -22,22 +22,22 @@ const Provide = () => {
       />
       <Services 
         icon={<CalendarTodayIcon style={{ color: "rgb(255, 120, 0)", fontSize: '56px' }} />} 
-        heading={"Short Terms"} 
+        heading={"Client Management"} 
         para={"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae atque expedita."}
       />
       <Services 
         icon={<MedicalServicesIcon style={{ color: "rgb(255, 120, 0)", fontSize: '56px' }} />} 
-        heading={"Natural Medicine"} 
+        heading={"Project Listings "} 
         para={"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae atque expedita."}
       />
       <Services 
         icon={<WorkHistoryIcon style={{ color: "rgb(255, 120, 0)", fontSize: '56px' }} />} 
-        heading={"Patient History"} 
+        heading={"Messaging System "} 
         para={"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae atque expedita."}
       />
       <Services 
         icon={<VideoCallIcon style={{ color: "rgb(255, 120, 0)", fontSize: '56px' }} />} 
-        heading={"Online Conference"} 
+        heading={"Ratings & Reviews"} 
         para={"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae atque expedita."}
       />
     </div>

@@ -89,7 +89,7 @@ const Signup = () => {
                     <div className="flex flex-col">
                         <label className="font-medium mb-1" htmlFor="name">Name</label>
                         <input
-                            className="p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            className=" text-black p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                             id="name"
                             type="text"
                             placeholder="Enter Your Name"
@@ -100,7 +100,7 @@ const Signup = () => {
                     <div className="flex flex-col">
                         <label className="font-medium mb-1" htmlFor="email">Email</label>
                         <input
-                            className="p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            className=" text-black p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                             id="email"
                             type="email"
                             placeholder="Enter Your Email"
@@ -111,7 +111,7 @@ const Signup = () => {
                     <div className="flex flex-col">
                         <label className="font-medium mb-1" htmlFor="password">Password</label>
                         <input
-                            className="p-2 text-black rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            className=" text-black p-2  rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                             id="password"
                             type="password"
                             placeholder="Enter Your Password"
